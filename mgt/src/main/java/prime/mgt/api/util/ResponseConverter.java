@@ -12,11 +12,7 @@ import prime.mgt.api.sdk.ApiServiceVO;
 import prime.mgt.api.util.converter.JsonConverter;
 
 /**
- * ResponseConverter
  * 
- * @author Erhun Baycelik <Erhun.Baycelik@asseco-see.com.tr>
- * @author Anil Tangul <anil.tangul@asseco-see.com.tr>
- * @author Isah Bllaca <isah.bllaca@asseco-see.com>
  */
 @Component
 public class ResponseConverter {

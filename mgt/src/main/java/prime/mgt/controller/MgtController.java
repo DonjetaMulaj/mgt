@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
-@Controller("/fictive")
-public class FictiveController {
+@Controller("/mgt")
+public class MgtController {
 	@CrossOrigin
-	@GetMapping(value = "/testform")
+	@GetMapping(value = "/mgt/testform")
 	public String getOpenPaymentPage(HttpServletRequest request) {
 		return "";
 	}

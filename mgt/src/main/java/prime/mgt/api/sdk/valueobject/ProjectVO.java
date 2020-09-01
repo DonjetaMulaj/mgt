@@ -1,27 +1,20 @@
-package prime.mgt.domain;
+package prime.mgt.api.sdk.valueobject;
 
 import java.util.Date;
 import java.util.Set;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-public class Project extends PO {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1052362240978678540L;
+@JsonInclude(Include.NON_NULL)
+public class ProjectVO {
 	private String projectName;
 	private String projectDescription;
 	private Date projectCreatedTs;
 	private String parentProjectId;
-	private User user;
-	private Set<ProjectItems> projectItems;
-	private Set<Project> childProject;
-
-	public Project() {
-		super();
-	}
+	private UserVO user;
+	private Set<ProjectItemsVO> projectItems;
+	private Set<ProjectVO> childProject;
 
 	public String getProjectName() {
 		return projectName;
@@ -55,68 +48,39 @@ public class Project extends PO {
 		this.parentProjectId = parentProjectId;
 	}
 
-	public User getUser() {
+	public UserVO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserVO user) {
 		this.user = user;
 	}
 
-	public Set<ProjectItems> getProjectItems() {
+	public Set<ProjectItemsVO> getProjectItems() {
 		return projectItems;
 	}
 
-	public void setProjectItems(Set<ProjectItems> projectItems) {
+	public void setProjectItems(Set<ProjectItemsVO> projectItems) {
 		this.projectItems = projectItems;
 	}
 
-	public Set<Project> getChildProject() {
+	public Set<ProjectVO> getChildProject() {
 		return childProject;
 	}
 
-	public void setChildProject(Set<Project> childProject) {
+	public void setChildProject(Set<ProjectVO> childProject) {
 		this.childProject = childProject;
 	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(id).append(projectName).toHashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj instanceof Project) {
-			final Project other = (Project) obj;
-			return new EqualsBuilder().append(id, other.id).append(projectName, other.projectName).isEquals();
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "Project [projectName=" + projectName + ", projectDescription=" + projectDescription + ", projectCreatedTs=" + projectCreatedTs
-				+ ", parentProjectId=" + parentProjectId + ", user=" + user + ", projectItems=" + projectItems + ", childProject=" + childProject + "]";
-	}
-
+	
+	
 	public static class Builder {
-		private String id;
 		private String projectName;
 		private String projectDescription;
 		private Date projectCreatedTs;
 		private String parentProjectId;
-		private User user;
-		private Set<ProjectItems> projectItems;
-		private Set<Project> childProject;
-
-		public Builder id(String id) {
-			this.id = id;
-			return this;
-		}
+		private UserVO user;
+		private Set<ProjectItemsVO> projectItems;
+		private Set<ProjectVO> childProject;
 
 		public Builder projectName(String projectName) {
 			this.projectName = projectName;
@@ -138,28 +102,26 @@ public class Project extends PO {
 			return this;
 		}
 
-		public Builder user(User user) {
+		public Builder user(UserVO user) {
 			this.user = user;
 			return this;
 		}
 
-		public Builder projectItems(Set<ProjectItems> projectItems) {
+		public Builder projectItems(Set<ProjectItemsVO> projectItems) {
 			this.projectItems = projectItems;
 			return this;
 		}
 
-		public Builder childProject(Set<Project> childProject) {
+		public Builder childProject(Set<ProjectVO> childProject) {
 			this.childProject = childProject;
 			return this;
 		}
-
-		public Project build() {
-			return new Project(this);
+		public ProjectVO build() {
+			return new ProjectVO(this);
 		}
 	}
-
-	private Project(Builder builder) {
-		this.id = builder.id;
+	
+	private ProjectVO(Builder builder) {
 		this.projectName = builder.projectName;
 		this.projectDescription = builder.projectDescription;
 		this.projectCreatedTs = builder.projectCreatedTs;

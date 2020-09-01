@@ -2,6 +2,8 @@ package prime.mgt.domain;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+@Component
 public abstract class PO implements Serializable{
 
 	private static final long serialVersionUID = -7281818277696605539L;

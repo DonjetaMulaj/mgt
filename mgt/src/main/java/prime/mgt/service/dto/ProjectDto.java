@@ -4,8 +4,6 @@ import prime.mgt.domain.enums.ProjectType;
 
 public class ProjectDto {
 	private ProjectType projectType;
-	private MarketingDto marketing;
-	private RetailDto reatil;
 
 	public ProjectDto() {
 		super();
@@ -19,39 +17,11 @@ public class ProjectDto {
 		this.projectType = projectType;
 	}
 
-	public MarketingDto getMarketing() {
-		return marketing;
-	}
-
-	public void setMarketing(MarketingDto marketing) {
-		this.marketing = marketing;
-	}
-
-	public RetailDto getReatil() {
-		return reatil;
-	}
-
-	public void setReatil(RetailDto reatil) {
-		this.reatil = reatil;
-	}
-
 	public static class Builder {
 		private ProjectType projectType;
-		private MarketingDto marketing;
-		private RetailDto reatil;
 
 		public Builder projectType(ProjectType projectType) {
 			this.projectType = projectType;
-			return this;
-		}
-
-		public Builder marketing(MarketingDto marketing) {
-			this.marketing = marketing;
-			return this;
-		}
-
-		public Builder reatil(RetailDto reatil) {
-			this.reatil = reatil;
 			return this;
 		}
 
@@ -62,7 +32,5 @@ public class ProjectDto {
 
 	private ProjectDto(Builder builder) {
 		this.projectType = builder.projectType;
-		this.marketing = builder.marketing;
-		this.reatil = builder.reatil;
 	}
 }

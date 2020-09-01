@@ -7,7 +7,6 @@ package prime.mgt.api.enums;
 public enum ApiAction implements AbstractAction{
 	
 	APIAUTHENTICATE, 
-	APIADDPROJECT,
 	APIQUERYPROJECT,
 	APISEARCHPROJECT,
 }

@@ -1,8 +1,12 @@
 package prime.mgt.service.impl;
 
-import prime.mgt.service.dto.ProjectDto;
+import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import prime.mgt.domain.Project;
+@Component
 public interface ProjectService {
 	
-	void addProject(ProjectDto dto);
+	Set<Project> getAllProjects();
 }

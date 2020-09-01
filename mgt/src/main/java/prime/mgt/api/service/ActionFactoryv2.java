@@ -16,8 +16,6 @@ public class ActionFactoryv2 {
 	private ApiQueryProjectService apiQueryProjectService;
 	@Autowired
 	private ApiSearchProjectService apiSearchProjectService;
-	@Autowired
-	private ApiAddProjectService apiAddProjectService;
 
 	public ApiService getAction(ApiAction action) {
 		switch (action) {
@@ -27,8 +25,6 @@ public class ActionFactoryv2 {
 			return apiQueryProjectService;
 		case APISEARCHPROJECT:
 			return apiSearchProjectService;
-		case APIADDPROJECT:
-			return apiAddProjectService;
 		default:
 			throw new IllegalArgumentException("Action " + action + " not supported yet on Api Version");
 		}

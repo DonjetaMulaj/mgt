@@ -21,6 +21,7 @@ public class ApiAuthenticateService extends ApiService{
 		String email = requestHolder.getEmail();
 		String passwrod = requestHolder.getPassword();				
 		asvo.setSuccessResponseParams();
+		
 		return asvo;
 	}
 }
