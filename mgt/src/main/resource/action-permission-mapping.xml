@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<util:map id="actionToPermissionMapper">
+		<entry
+			key="#{T(goprime.fictive.api.enums.ApiAction).APIAUTHENTICATE}">
+			<util:list
+				value-type="goprime.fictive.enums.Permission">
+				<value>API_AUTHENTICATE</value>
+			</util:list>
+		</entry>
+		<entry
+			key="#{T(goprime.fictive.api.enums.ApiAction).APIQUERYPROJECT}">
+			<util:list
+				value-type="goprime.fictive.enums..Permission">
+				<value>API_QUERYPROJECT</value>
+			</util:list>
+		</entry>
+		<entry
+			key="#{T(goprime.fictive.api.enums.ApiAction).APISEARCHPROJECT}">
+			<util:list
+				value-type="com.assecosee.msu.domain.enums.Permission">
+				<value>API_SEARCHPROJECT</value>
+			</util:list>
+		</entry>
+		</util:map>
+</beans>
