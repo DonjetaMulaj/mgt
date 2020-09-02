@@ -18,5 +18,5 @@ public class UserDaoImpl implements UserDao{
 	
 	@Override
 	public User getUser() {
-		return new User.Builder().userCreatedTs(dateUtils.getNow()).userName("primeAuthUser").userEmail("primeAuthUser@email.com").userPassword("Test1234").userRoles(new HashSet<UserRole>(Arrays.asList(UserRole.BASIC))).build();
+		return new User.Builder().userCreatedTs(dateUtils.getNow()).userName("primeAuthUser").userEmail("primeAuthUser@email.com").userPassword("Test1234").userRoles(new HashSet<UserRole>(Arrays.asList(UserRole.BASIC, UserRole.ANALYST))).build();
 	}}

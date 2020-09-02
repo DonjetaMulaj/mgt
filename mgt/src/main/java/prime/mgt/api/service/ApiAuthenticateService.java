@@ -23,11 +23,11 @@ public class ApiAuthenticateService extends ApiService{
 	private UserService userService;
 	
 	@Override
-	public ApiServiceVO doAction(RequestHolder requestHolder, HttpServletRequest request) throws ApiException {
+	public ApiServiceVO doAction(RequestHolder requestHolder, HttpServletRequest req) throws ApiException {
 		ApiServiceVO asvo = new ApiServiceVO();
-		String userName = requestHolder.getUserName();
-		String email = requestHolder.getEmail();
-		String passwrod = requestHolder.getPassword();
+		String userName = req.getParameter(requestHolder.getUserName());
+		String email = req.getParameter(requestHolder.getEmail());
+		String passwrod = req.getParameter(requestHolder.getPassword());
 		User user = userService.getUser(userName, email, passwrod);
 		if (user == null) {
 			throw new ApiException(ApiErrorCode.ERR0003);
