@@ -22,8 +22,6 @@ import prime.mgt.api.util.validation.ApiRequestValidator;
 public class ApiValidationService {
 	@Autowired
 	private ApiRequestValidator apiRequestReader;
-	@Autowired
-	private ApiUtil apiUtil;
 	private static final Logger logger = LogManager.getLogger(ApiValidationService.class);
 	
 	public void validateRequest(RequestHolder requestHolder, HttpServletRequest req, AbstractAction action) throws ApiException {

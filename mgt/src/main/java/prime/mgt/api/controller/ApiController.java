@@ -3,8 +3,6 @@ package prime.mgt.api.controller;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import prime.mgt.api.enums.ApiAction;
 import prime.mgt.api.enums.ApiErrorCode;
 import prime.mgt.api.enums.ApiRequestParameter;
-import prime.mgt.api.enums.Language;
 import prime.mgt.api.enums.Responseformat;
 import prime.mgt.api.exception.ApiException;
 import prime.mgt.api.requestholders.RequestHolder;
 import prime.mgt.api.sdk.ApiServiceVO;
 import prime.mgt.api.service.ActionFactoryv2;
+import prime.mgt.api.service.ApiLoginService;
 import prime.mgt.api.service.ApiService;
 import prime.mgt.api.util.ApiUtil;
 import prime.mgt.api.util.ApiValidationService;
@@ -47,9 +45,11 @@ public class ApiController {
 	private ApiValidationService apiValidationService;
 	@Autowired
 	private ResponseConverter responseFormatter;
+	@Autowired
+	private ApiLoginService apiLoginService;
 	private static final Logger logger = LogManager.getLogger(ApiController.class);
 
-	@RequestMapping(value = { "api/v2" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "api/service" }, method = RequestMethod.POST)
 	public void apiv2(HttpServletRequest request, HttpServletResponse response) {
 		String responseOutput = "";
 		String responseCode = "";
@@ -58,14 +58,13 @@ public class ApiController {
 		ApiServiceVO asvo = new ApiServiceVO();
 		RequestHolder requestHolder = null;
 		Responseformat responseFormat = Responseformat.JSON;
-		Date requestDate = dateUtils.getNow();
 		requestHolder = new RequestHolder(request);
-		Locale locale = new Locale(Language.en.name());
 		try {
 			apiUtil.validatePostRequest(request);
 			action = getAction(request);
 			ApiService apiService = actionFactory.getAction(action);
 			apiValidationService.validateRequest(requestHolder, request, action);
+			apiLoginService.login(requestHolder);
 			asvo = apiService.doAction(requestHolder);
 		} catch (ApiException e) {
 			logger.trace("API Exception", e.getMessage());

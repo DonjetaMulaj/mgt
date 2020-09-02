@@ -1,11 +1,10 @@
 package prime.mgt.api.util.validation;
+
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,8 +18,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
@@ -29,7 +26,6 @@ import org.springframework.stereotype.Component;
 
 import prime.mgt.api.enums.AbstractAction;
 import prime.mgt.api.enums.ApiErrorCode;
-import prime.mgt.api.enums.ApiRequestParameter;
 import prime.mgt.api.util.JaxbFactory;
 import prime.mgt.api.util.validation.ApiReqValidationRules.Action.Params.Param;
 
@@ -44,10 +40,7 @@ public class ApiRequestValidator {
 	private Map<String, Set<String>> enumContainer;
 	private ApiReqValidationRules validationRules;
 	private static final String ENUM = "enum";
-	private static final String DECIMAL = "decimal";
-	private static final String INTEGER = "integer";
-	private static final String DATE = "date";
-	private static final String ENUM_PACKAGE = "goprime.fictive.api.enums";
+	private static final String ENUM_PACKAGE = "prime.mgt.api.enums";
 	private static final String STRING = "string";
 	private static final String API_REQUEST_PARAM_DEFINITIONS_XML = "api-request-param-definitions.xml";
 	private static final Logger logger = LogManager.getLogger(ApiRequestValidator.class);
@@ -89,7 +82,7 @@ public class ApiRequestValidator {
 			logger.error("Could not find enums in package: " + ENUM_PACKAGE, x);
 		}
 	}
-	
+
 	public ApiReqValidationResult validateParams(HttpServletRequest req, AbstractAction actionType) {
 		List<Param> params = validationRules.getParamsForAction(actionType);
 		if (params.isEmpty()) {
@@ -157,27 +150,6 @@ public class ApiRequestValidator {
 					paramOk = false;
 					firstErrorCode = rememberErrorCode(firstErrorCode, ApiErrorCode.ERR0001);
 					firstParamViolator = rememberParamViolator(firstParamViolator, name);
-				} else if (DATE.equals(type)) {
-					if (!isValidDate(value, format)) {
-						paramOk = false;
-						firstErrorCode = rememberErrorCode(firstErrorCode, ApiErrorCode.ERR0001);
-						firstParamViolator = rememberParamViolator(firstParamViolator, name);
-					}
-				} else if (INTEGER.equals(type)) {
-					if (!isInteger(value)) {
-						paramOk = false;
-						firstErrorCode = rememberErrorCode(firstErrorCode, ApiErrorCode.ERR0001);
-						firstParamViolator = rememberParamViolator(firstParamViolator, name);
-					}
-				} else if (DECIMAL.equals(type)) {
-					if (!isDecimal(value)) {
-						paramOk = false;
-						firstErrorCode = rememberErrorCode(firstErrorCode, ApiErrorCode.ERR0001);
-						firstParamViolator = rememberParamViolator(firstParamViolator, name);
-					} else {
-						validatedParams.put(name, value.replaceAll("\\,", "\\."));
-						continue;
-					}
 				} else if (STRING.equals(type)) {
 					if (isNotBlank(format)) {
 						if (!value.matches(format)) {
@@ -215,15 +187,13 @@ public class ApiRequestValidator {
 	public boolean validateIfParamNotPresent(HttpServletRequest req, String ifParamNotPresent) {
 		String[] splittedParams = ifParamNotPresent.split("\\|");
 		for (String param : splittedParams) {
-			if(isNotEmpty(req.getParameter(param.toUpperCase()))) {
+			if (isNotEmpty(req.getParameter(param.toUpperCase()))) {
 				return true;
 			}
 		}
 		return false;
-		
-	
 	}
-	
+
 	public void doAdditionalValidation(ApiReqValidationResult result) {
 		boolean firstValidationSucceeded = result.isSuccessful();
 		if (!firstValidationSucceeded) {
@@ -231,12 +201,6 @@ public class ApiRequestValidator {
 			return;
 		}
 	}
-	private void setResultToUnsuccessful(ApiReqValidationResult result, ApiErrorCode errCode, ApiRequestParameter violatorParam) {
-		result.setErrorCode(errCode);
-		result.setParamViolator(violatorParam.name());
-		result.setSuccessful(false);
-	}
-
 
 	private String getParamPresentInRequest(String param, String ifParamNotPresent, HttpServletRequest req) {
 		for (Map.Entry<String, String[]> entry : req.getParameterMap().entrySet()) {
@@ -256,28 +220,6 @@ public class ApiRequestValidator {
 
 	private String rememberParamViolator(String firstParamViolator, String paramViolator) {
 		return (firstParamViolator == null) ? paramViolator : firstParamViolator;
-	}
-
-	private boolean isInteger(String value) {
-		return StringUtils.isNumeric(value);
-	}
-
-	private boolean isDecimal(String paramValue) {
-		if (paramValue.contains("\\.") && paramValue.contains("\\,")) {
-			//not allowed to contain both . and ,
-			return false;
-		}
-		String input = paramValue.replaceAll("\\,", "\\.");
-		return NumberUtils.isNumber(input);
-	}
-
-	private boolean isValidDate(String value, String pattern) {
-		try {
-			new SimpleDateFormat(pattern).parse(value);
-		} catch (ParseException e) {
-			return false;
-		}
-		return true;
 	}
 
 	public Map<String, String> getActionParams(HttpServletRequest req, AbstractAction actionType) {

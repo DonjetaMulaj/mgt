@@ -13,7 +13,6 @@ import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.support.TaskUtils;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
  * @author Donjeta Mulaj <donjeta.mulaj@gmail.com>
@@ -35,13 +34,6 @@ public class Application {
 		messageSource.setBasename("classpath:/localization/messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
-	}
-
-	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-		lci.setParamName("language");
-		return lci;
 	}
 
 	@Bean

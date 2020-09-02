@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import prime.mgt.api.enums.ApiAction;
 import prime.mgt.api.enums.ApiRequestParameter;
 
 /**
@@ -71,5 +72,9 @@ public class RequestHolder {
 			return validatedParams.get(param.name());
 		}
 		return null;
+	}
+
+	public ApiAction getAction() {
+		return ApiAction.fromString(getParameter(ApiRequestParameter.ACTION));
 	}
 }

@@ -12,5 +12,13 @@ public enum ApiErrorCode {
 	/*
 	 * Required Parameter
 	 */
-	ERR0001;
+	ERR0001,
+	/**
+	 * User do not have role access 
+	 */
+	ERR0002,
+	/**
+	 * User not found
+	 */
+	ERR0003;
 }

@@ -6,31 +6,27 @@ import org.springframework.stereotype.Component;
 import prime.mgt.api.enums.ApiErrorCode;
 import prime.mgt.api.exception.ApiException;
 import prime.mgt.api.requestholders.RequestHolder;
-import prime.mgt.api.sdk.ApiServiceVO;
 import prime.mgt.domain.User;
 import prime.mgt.service.impl.UserService;
 
 /**
- * 
- * @author Donjeta Mulaj <donjeta.mulaj@gmail.com>
- *
+ * @author Donjeta Mulaj
  */
 @Component
-public class ApiAuthenticateService extends ApiService{
+public class ApiLoginService {
+	@Autowired
+	private ApiRoleChecker apiRoleChecker;
 	@Autowired
 	private UserService userService;
-	
-	@Override
-	public ApiServiceVO doAction(RequestHolder requestHolder) throws ApiException {
-		ApiServiceVO asvo = new ApiServiceVO();
+
+	public void login(RequestHolder requestHolder) throws ApiException {
 		String userName = requestHolder.getUserName();
-		String email = requestHolder.getEmail();
-		String passwrod = requestHolder.getPassword();
-		User user = userService.getUser(userName, email, passwrod);
+		String userEmail = requestHolder.getEmail();
+		String userPassword = requestHolder.getPassword();
+		User user = userService.getUser(userName, userEmail, userPassword);
 		if (user == null) {
 			throw new ApiException(ApiErrorCode.ERR0003);
 		}
-		asvo.setSuccessResponseParams();		
-		return asvo;
+		apiRoleChecker.checkUserRole(requestHolder.getAction(), user);
 	}
 }

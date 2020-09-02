@@ -83,12 +83,18 @@ public class User extends PO {
 
 	public static class Builder {
 		private String userName;
+		private String userEmail;
 		private String userPassword;
 		private Date userCreatedTs;
 		private Set<UserRole> userRoles;
 
 		public Builder userName(String userName) {
 			this.userName = userName;
+			return this;
+		}
+
+		public Builder userEmail(String userEmail) {
+			this.userEmail = userEmail;
 			return this;
 		}
 
@@ -114,6 +120,7 @@ public class User extends PO {
 
 	private User(Builder builder) {
 		this.userName = builder.userName;
+		this.userEmail = builder.userEmail;
 		this.userPassword = builder.userPassword;
 		this.userCreatedTs = builder.userCreatedTs;
 		this.userRoles = builder.userRoles;
