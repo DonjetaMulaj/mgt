@@ -28,6 +28,7 @@ import prime.mgt.api.enums.AbstractAction;
 import prime.mgt.api.enums.ApiErrorCode;
 import prime.mgt.api.util.JaxbFactory;
 import prime.mgt.api.util.validation.ApiReqValidationRules.Action.Params.Param;
+import prime.mgt.domain.ApiReqParamDefinitation;
 
 /**
  * @author Donjeta Mulaj <donjeta.mulaj@gmail.com>
@@ -36,6 +37,8 @@ import prime.mgt.api.util.validation.ApiReqValidationRules.Action.Params.Param;
 public class ApiRequestValidator {
 	@Autowired
 	private JaxbFactory jaxbFactory;
+	@Autowired
+	private ApiReqParamDefinitation apiReqParamDefinitation;
 	private StreamSource source;
 	private Map<String, Set<String>> enumContainer;
 	private ApiReqValidationRules validationRules;
@@ -47,6 +50,10 @@ public class ApiRequestValidator {
 
 	public ApiReqValidationRules getValidationRules() {
 		return validationRules;
+	}
+	
+	public StreamSource getSource() {
+		return source;
 	}
 
 	@PostConstruct

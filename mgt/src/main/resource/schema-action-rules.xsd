@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.asseco-see.com.tr/schema-action-rules" xmlns:tns="http://www.asseco-see.com.tr/schema-action-rules"
+	elementFormDefault="qualified">
+	<xs:element name="actions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="action" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="params">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="param" maxOccurs="unbounded" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute type="xs:string" name="name" use="required" />
+														<xs:attribute name="required" use="required">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="required" />
+																	<xs:enumeration value="optional" />
+																	<xs:enumeration value="conditional" />
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute type="xs:integer" name="maxLength" use="required" />
+														<xs:attribute name="type" use="required">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="string" />
+																	<xs:enumeration value="decimal" />
+																	<xs:enumeration value="boolean" />
+																	<xs:enumeration value="date" />
+																	<xs:enumeration value="enum" />
+																	<xs:enumeration value="integer"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="format" use="optional">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="dd-MM-yyyy" />
+																	<xs:enumeration value="dd-MM-yyyy HH:mm" />
+																	<xs:enumeration value="MM.YYYY" />
+																	<xs:enumeration value="[{itemcode, itemname, itemdescription, itemprice, itemquantity}]"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute> 
+ 														<!-- <xs:attribute type="xs:string" name="ifParamPresent" use="optional" /> -->
+ 														<xs:attribute type="xs:string" name="ifParamNotPresent" use="optional" />
+ 														<xs:attribute type="xs:string" name="defaultValue" use="optional" />
+ 														<xs:attribute type="xs:string" name="enumClass" use="optional" /> 
+ 														<!-- Write as {param}={value1|value2|...} -->
+ 														<xs:attribute name="ifParamValue" use="optional">
+ 															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:pattern value="(\w)+=(([a-zA-Z0-9_])+(\|)?)+"/>
+																</xs:restriction>
+															</xs:simpleType>
+ 														</xs:attribute> 
+ 														<!--  <xs:attribute type="xs:string" name="regex" use="optional" />  -->
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:string" name="name" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

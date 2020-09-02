@@ -3,6 +3,8 @@ package prime.mgt.api.service;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,7 @@ public class ApiQueryProjectService extends ApiService {
 	ProjectService projectService;
 
 	@Override
-	public ApiServiceVO doAction(RequestHolder requestHolder) throws ApiException {
+	public ApiServiceVO doAction(RequestHolder requestHolder, HttpServletRequest request) throws ApiException {
 		ApiQueryProjectAsvo asvo = new ApiQueryProjectAsvo();
 		Set<Project> projects = projectService.getAllProjects();
 		Set<ProjectVO> projectsVO = new HashSet<ProjectVO>();

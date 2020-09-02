@@ -10,6 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().ignoringAntMatchers("/payment/status/**", "/directlogin/**").and().exceptionHandling().accessDeniedPage("/denied");
+		http.csrf().ignoringAntMatchers("/api/service").and().exceptionHandling().accessDeniedPage("/error");
 	}
 }

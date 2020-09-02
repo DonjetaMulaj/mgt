@@ -1,5 +1,7 @@
 package prime.mgt.api.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class ApiAuthenticateService extends ApiService{
 	private UserService userService;
 	
 	@Override
-	public ApiServiceVO doAction(RequestHolder requestHolder) throws ApiException {
+	public ApiServiceVO doAction(RequestHolder requestHolder, HttpServletRequest request) throws ApiException {
 		ApiServiceVO asvo = new ApiServiceVO();
 		String userName = requestHolder.getUserName();
 		String email = requestHolder.getEmail();

@@ -10,5 +10,6 @@ public enum ApiRequestParameter {
 	CUSTOMERSATISFACTION,
 	STOCK,
 	SALES,
-	PROMOTIONS;
+	PROMOTIONS,
+	FILTERS;
 }

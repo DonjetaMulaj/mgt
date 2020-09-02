@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import prime.mgt.api.enums.ApiAction;
 import prime.mgt.api.enums.ApiErrorCode;
@@ -26,31 +26,28 @@ import prime.mgt.api.service.ApiLoginService;
 import prime.mgt.api.service.ApiService;
 import prime.mgt.api.util.ApiUtil;
 import prime.mgt.api.util.ApiValidationService;
-import prime.mgt.api.util.DateUtils;
 import prime.mgt.api.util.ResponseConverter;
 
 /**
  * @author Donjeta Mulaj <donjeta.mulaj@gmail.com>
  */
-
-@Controller
+@RequestMapping("/api/service")
+@RestController
 public class ApiController {
-	@Autowired
-	private DateUtils dateUtils;
 	@Autowired
 	private ApiUtil apiUtil;
 	@Autowired
 	private ActionFactoryv2 actionFactory;
 	@Autowired
-	private ApiValidationService apiValidationService;
-	@Autowired
 	private ResponseConverter responseFormatter;
 	@Autowired
 	private ApiLoginService apiLoginService;
+	@Autowired
+	private ApiValidationService apiValidationService;
 	private static final Logger logger = LogManager.getLogger(ApiController.class);
-
-	@RequestMapping(value = { "api/service" }, method = RequestMethod.POST)
-	public void apiv2(HttpServletRequest request, HttpServletResponse response) {
+	
+	@PostMapping
+	public void apiService(HttpServletRequest request, HttpServletResponse response) {
 		String responseOutput = "";
 		String responseCode = "";
 		String responseErrorCode = "";
@@ -63,12 +60,15 @@ public class ApiController {
 			apiUtil.validatePostRequest(request);
 			action = getAction(request);
 			ApiService apiService = actionFactory.getAction(action);
+			apiLoginService.login(requestHolder, request);
 			apiValidationService.validateRequest(requestHolder, request, action);
-			apiLoginService.login(requestHolder);
-			asvo = apiService.doAction(requestHolder);
+			asvo = apiService.doAction(requestHolder, request);
 		} catch (ApiException e) {
 			logger.trace("API Exception", e.getMessage());
 			logger.debug("API v2 Fail: mid = {}, action = {}, errorCode: {}, violator: {}, errorMsg:{}", action, e.getMessage(), e.getApiErrorCode());
+			responseCode = asvo.getErrorCode();
+			responseErrorCode = asvo.getErrorMsg();
+			responseOutput = responseFormatter.convert(asvo, responseFormat);
 			e.printStackTrace();
 		} finally {
 			try {
